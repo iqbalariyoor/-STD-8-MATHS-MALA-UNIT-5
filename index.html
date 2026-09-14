@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ഗണിതം - ക്ലാസ് 8 - യൂണിറ്റ് 5: സമവാക്യപരിഹാരം</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { font-family: 'Manjari', sans-serif; background-color: #f0fdf4; color: #065f46; }
+        .app-container { max-width: 800px; margin: 0 auto; min-height: 100vh; background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); position: relative; overflow-x: hidden; }
+        .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease-in-out; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-main { padding: 14px 20px; border-radius: 12px; font-weight: bold; font-size: 1.05rem; transition: all 0.2s; display: flex; align-items: center; justify-content: flex-start; gap: 12px; width: 100%; color: white; box-shadow: 0 4px 0 rgba(0,0,0,0.2); text-align: left; }
+        .btn-main:active { transform: translateY(4px); box-shadow: none; }
+        .btn-action { background-color: #059669; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 0 #047857; transition: all 0.2s; cursor: pointer; }
+        .btn-action:active { transform: translateY(4px); box-shadow: none; }
+        .header { background-color: #047857; color: white; padding: 16px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .header h1 { font-size: 1.2rem; font-weight: 700; margin: 0; }
+        .back-btn { background: rgba(255,255,255,0.2); border: none; color: white; font-size: 1.2rem; cursor: pointer; padding: 4px 12px; border-radius: 8px; }
+        .category-card { background: #f0fdf4; border: 2px solid #a7f3d0; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+        .category-title { font-size: 1.2rem; font-weight: 700; color: #065f46; margin-bottom: 16px; border-bottom: 2px dashed #34d399; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .content-card { background-color: #ffffff; border: 2px solid #a7f3d0; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .quiz-opt { padding: 12px; background-color: #f0fdf4; border: 2px solid #a7f3d0; border-radius: 8px; cursor: pointer; text-align: center; font-weight: bold; transition: all 0.2s; color: #065f46; }
+        .quiz-opt:hover { background-color: #d1fae5; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #1e293b; color: white; padding: 12px 24px; border-radius: 8px; z-index: 1000; display: none; opacity: 0; transition: opacity 0.3s; font-weight: bold; max-width: 90%; text-align:center; }
+        .toast.show { display: block; opacity: 1; }
+        input.game-input { width: 100%; padding: 10px; border: 2px solid #34d399; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: bold; margin-bottom: 10px; background-color: #f0fdf4; color: #065f46; }
+        input.game-input:focus { outline: none; border-color: #059669; }
+        @media print {
+            .no-print { display: none !important; }
+            .screen { display: block !important; padding: 0 !important; }
+            .app-container { box-shadow: none; width: 100%; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+
+    <!-- Home Screen -->
+    <div id="homeScreen" class="screen active">
+        <div class="text-center mb-6 pt-2">
+            <h1 class="text-3xl font-bold text-emerald-900 mb-1">ഗണിതം - ക്ലാസ് 8</h1>
+            <p class="text-emerald-700 font-bold mb-3">യൂണിറ്റ് 5: സമവാക്യപരിഹാരം (Solution of Equations)</p>
+        </div>
+
+        <!-- Section 1: Notes & Concepts -->
+        <div class="category-card">
+            <h3 class="category-title">📖 1. പാഠക്കുറിപ്പുകൾ & ആശയങ്ങൾ</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button class="btn-main bg-emerald-600" onclick="showScreen('notesScreen')"><span class="text-2xl">📚</span> മുഴുവൻ പാഠക്കുറിപ്പുകൾ (Detailed Notes)</button>
+                <button class="btn-main bg-teal-600" onclick="showScreen('inverseMethodScreen')"><span class="text-2xl">🔄</span> വിലോമക്രിയ (Inverse Operations)</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Interactive Calculators & Labs -->
+        <div class="category-card border-teal-300">
+            <h3 class="category-title text-teal-900">🧮 2. ലബ് & കാൽക്കുലേറ്ററുകൾ</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button class="btn-main bg-teal-700" onclick="showScreen('reverseCalcScreen')"><span class="text-2xl">⚡</span> പിന്നോട്ടു ചിന്തിക്കാം (Reverse Solver)</button>
+                <button class="btn-main bg-emerald-700" onclick="showScreen('agePuzzleScreen')"><span class="text-2xl">⏳</span> വയസ്സ് കണക്ക് പസിൽ (Age Puzzles)</button>
+                <button class="btn-main bg-green-700" onclick="showScreen('mixtureScreen')"><span class="text-2xl">🧪</span> ആസിഡ് മിശ്രിത കണക്ക്</button>
+                <button class="btn-main bg-cyan-700" onclick="showScreen('birdPuzzleScreen')"><span class="text-2xl">🐦</span> പക്ഷിക്കൂട്ടം പഴയ കണക്ക്</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Quizzes & Practice -->
+        <div class="category-card border-green-300">
+            <h3 class="category-title text-green-900">❓ 3. ക്വിസ് & പരിശീലനം</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button class="btn-main bg-green-600" onclick="initQuiz(); showScreen('quizScreen')"><span class="text-2xl">🎯</span> യൂണിറ്റ് 5 മെഗാ ക്വിസ്</button>
+                <button class="btn-main bg-teal-600" onclick="showScreen('flashCardScreen')"><span class="text-2xl">💡</span> ഫ്ലാഷ് കാർഡ് ചോദ്യോത്തരങ്ങൾ</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Assessment & Print / PDF -->
+        <div class="category-card border-cyan-300">
+            <h3 class="category-title text-cyan-900">📋 4. മൂല്യനിർണ്ണയം & പ്രിന്റ്</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button class="btn-main bg-emerald-800" onclick="showScreen('modelQPScreen')"><span class="text-2xl">📋</span> മോഡൽ ചോദ്യപേപ്പർ & ഉത്തരങ്ങൾ</button>
+                <button class="btn-main bg-teal-800" onclick="showScreen('unitTestScreen')"><span class="text-2xl">📄</span> യൂണിറ്റ് ടെസ്റ്റ് പേപ്പർ & പ്രിന്റ്</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Screen -->
+    <div id="notesScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>പാഠക്കുറിപ്പുകൾ</h1></div>
+        <div class="content-card space-y-4 text-sm text-gray-800">
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                <p class="font-bold text-emerald-900 text-base mb-1">1. വിലോമക്രിയ (Inverse Operations):</p>
+                <p>ഒരു സംഖ്യയിൽ പല ക്രിയകൾ ചെയ്തുകിട്ടിയ ഫലത്തിൽ നിന്ന്, തിരിച്ചു നടന്ന് ആ സംഖ്യ കണ്ടുപിടിക്കുന്ന രീതിയാണ് വിലോമക്രിയ. കൂട്ടലിന് കുറയ്ക്കലും, ഗുണനത്തിന് ഹരണവും വിപരീതക്രിയകളാണ്.</p>
+            </div>
+            <div class="p-3 bg-teal-50 rounded-xl border border-teal-200">
+                <p class="font-bold text-teal-900 text-base mb-1">2. ബീജഗണിത സമവാക്യങ്ങൾ (Algebraic Equations):</p>
+                <p>അജ്ഞാത സംഖ്യയെ <b>x</b> എന്ന് എടുത്ത് സമവാക്യങ്ങളാക്കി മാറ്റിയാൽ വലിയ പ്രശ്നങ്ങളും എളുപ്പത്തിൽ പരിഹരിക്കാം.</p>
+            </div>
+            <div class="p-3 bg-green-50 rounded-xl border border-green-200">
+                <p class="font-bold text-green-900 text-base mb-1">3. സർവസമവാക്യങ്ങൾ (Identities):</p>
+                <p>അക്ഷരങ്ങൾക്ക് ഏതു വില കൊടുത്താലും ശരിയാകുന്ന സമവാക്യങ്ങളാണ് സർവസമവാക്യങ്ങൾ. ഉദാ: <i>2x + 1 = 9</i> എന്നതിൽ x = 4 ആയാൽ മാത്രമേ ശരിയാകൂ (ഇത് സമവാക്യമാണ്).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inverse Method Screen -->
+    <div id="inverseMethodScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>വിലോമക്രിയ വിശദീകരണം</h1></div>
+        <div class="content-card space-y-3">
+            <div class="p-3 bg-emerald-100 rounded-xl font-bold text-emerald-900">
+                <p class="text-sm text-emerald-700">ഭാസ്കരാചാര്യരുടെ ലീലാവതിയിലെ നിയമം:</p>
+                <p class="text-base mt-1">"ഫലമറിയാമെങ്കിൽ സംഖ്യ കണക്കാക്കാൻ ഹരണത്തെ ഗുണനമാക്കുക, ഗുണനത്തെ ഹരണമാക്കുക, കൂട്ടിയതു കുറയ്ക്കുക, കുറച്ചതു കൂട്ടുക."</p>
+            </div>
+            <div class="p-3 bg-teal-100 rounded-xl text-teal-900 text-sm">
+                <p class="font-bold mb-1">ഉദാഹരണം:</p>
+                <p>ഒരു സംഖ്യയെ 4 കൊണ്ട് ഗുണിച്ച് 20 കൂട്ടിയപ്പോൾ 200 കിട്ടി. സംഖ്യ കാണാൻ:</p>
+                <p class="mt-1 font-mono bg-white p-2 rounded border border-teal-300">(200 - 20) ÷ 4 = 180 ÷ 4 = 45.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reverse Solver Game Screen -->
+    <div id="reverseCalcScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>പിന്നോട്ടു ചിന്തിക്കാം (Reverse Solver)</h1></div>
+        <div class="content-card text-center">
+            <p class="font-bold text-gray-700 mb-2">ഒരു രഹസ്യ സംഖ്യയോട് <b>3</b> ഗുണിച്ച്, <b>5</b> കൂട്ടിയപ്പോൾ <b>35</b> കിട്ടി.</p>
+            <p class="text-sm text-emerald-700 mb-4">എങ്കിൽ ആ രഹസ്യ സംഖ്യ എത്രയാണ്?</p>
+            <input type="number" id="revInput" class="game-input" placeholder="ഉത്തരം ടൈപ്പ് ചെയ്യുക">
+            <button class="btn-action w-full py-3" onclick="checkReverse()">പരിശോധിക്കുക ✅</button>
+            <p id="revResult" class="font-bold mt-3 text-lg"></p>
+        </div>
+    </div>
+
+    <!-- Age Puzzle Screen -->
+    <div id="agePuzzleScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>വയസ്സ് കണക്ക് പസിൽ</h1></div>
+        <div class="content-card text-center">
+            <p class="font-bold text-gray-700 mb-3 leading-relaxed">"അജയന് വിജയനേക്കാൾ 10 വയസ്സ് കൂടുതലാണ്. അടുത്ത വർഷം അജയന്റെ പ്രായം, വിജയന്റെ പ്രായത്തിന്റെ രണ്ടു മടങ്ങാകും. വിജയന്റെ ഇപ്പോഴത്തെ പ്രായം എത്ര?"</p>
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-600 mb-1">വിജയന്റെ പ്രായം ടൈപ്പ് ചെയ്യുക:</label>
+                <input type="number" id="ageInput" class="game-input" placeholder="വയസ്സ്">
+            </div>
+            <button class="btn-action w-full py-3" onclick="checkAgePuzzle()">ഉത്തരം പരിശോധിക്കുക 🏆</button>
+            <p id="ageResult" class="font-bold mt-3 text-base"></p>
+        </div>
+    </div>
+
+    <!-- Mixture Screen -->
+    <div id="mixtureScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>ആസിഡ് മിശ്രിത കണക്ക്</h1></div>
+        <div class="content-card text-center">
+            <p class="font-bold text-gray-700 mb-3 leading-relaxed">"ആസിഡും വെള്ളവും ചേർന്ന ദ്രാവകത്തിൽ 60% ആസിഡ് ആണ്. 6 ലിറ്റർ ആസിഡ് കൂടി ഒഴിച്ചപ്പോൾ, ആസിഡ് 75% ആയി. ആദ്യം എത്ര ലിറ്റർ ദ്രാവകം ഉണ്ടായിരുന്നു?"</p>
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-600 mb-1">ആദ്യമുണ്ടായിരുന്ന ദ്രാവകം (ലിറ്ററിൽ):</label>
+                <input type="number" id="mixInput" class="game-input" placeholder="ലിറ്റർ">
+            </div>
+            <button class="btn-action w-full py-3" onclick="checkMixture()">പരിശോധിക്കുക ✅</button>
+            <p id="mixResult" class="font-bold mt-3 text-base"></p>
+        </div>
+    </div>
+
+    <!-- Bird Puzzle Screen -->
+    <div id="birdPuzzleScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>പക്ഷിക്കൂട്ടം പഴയ കണക്ക്</h1></div>
+        <div class="content-card text-center">
+            <p class="font-bold text-gray-700 mb-3 leading-relaxed">"ഞങ്ങളും ഞങ്ങളോളവും, ഞങ്ങളിൽ പകുതിയും, അതിൽ പകുതിയും, ഒന്നും ചേർന്നാൽ നൂറാകും. എത്ര പക്ഷികളുണ്ടായിരുന്നു?"</p>
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-600 mb-1">പക്ഷികളുടെ എണ്ണം:</label>
+                <input type="number" id="birdInput" class="game-input" placeholder="എണ്ണം">
+            </div>
+            <button class="btn-action w-full py-3" onclick="checkBirdPuzzle()">ഉത്തരം പരിശോധിക്കുക 🐦</button>
+            <p id="birdResult" class="font-bold mt-3 text-base"></p>
+        </div>
+    </div>
+
+    <!-- Flash Card Screen -->
+    <div id="flashCardScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>ഫ്ലാഷ് കാർഡ് ചോദ്യോത്തരങ്ങൾ</h1></div>
+        <div class="content-card text-center min-h-[240px] flex flex-col justify-between">
+            <div>
+                <p id="fcCategory" class="text-xs font-bold text-emerald-600 uppercase mb-2">ചോദ്യം 1</p>
+                <h3 id="fcQuestion" class="font-bold text-xl text-gray-800 mb-4">ചോദ്യം വരുന്നു...</h3>
+                <div id="fcAnswerBox" class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl font-bold text-emerald-900 text-base hidden">
+                    ഉത്തരം: ഇവിടെ ഉത്തരം വരുന്നു
+                </div>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button class="btn-action flex-1 bg-gray-500" onclick="prevFlashCard()">⬅ മുൻപ്</button>
+                <button class="btn-action flex-1" onclick="toggleFlashAnswer()">ഉത്തരം കാണുക 👁️</button>
+                <button class="btn-action flex-1 bg-emerald-700" onclick="nextFlashCard()">അടുത്തത് ➡</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="screen">
+        <div class="header"><button class="back-btn" onclick="showScreen('homeScreen')">⬅</button><h1>യൂണിറ്റ് 5 മെഗാ ക്വിസ്</h1><div id="quizProgress" class="font-bold bg-white text-emerald-700 px-3 py-1 rounded-lg">1/5</div></div>
+        <div class="content-card min-h-[280px] flex flex-col justify-center">
+            <div id="quizQuestionArea">
+                <h3 id="questionText" class="font-bold text-xl mb-6 text-gray-800 leading-relaxed">ചോദ്യം വരുന്നു...</h3>
+                <div id="optionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+            <div id="quizResultArea" style="display:none;" class="text-center py-4">
+                <div class="text-6xl mb-4">🏆</div>
+                <h2 class="text-2xl font-bold text-emerald-600 mb-3">ക്വിസ് പൂർത്തിയായി!</h2>
+                <p class="text-xl font-bold mb-6 text-gray-700">സ്കോർ: <span id="finalScore" class="text-3xl text-blue-600 mx-2">0</span> / 5</p>
+                <button class="btn-action w-full py-3 text-lg" onclick="initQuiz()">വീണ്ടും കളിക്കാം 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Question Paper Screen -->
+    <div id="modelQPScreen" class="screen">
+        <div class="header no-print"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>മോഡൽ ചോദ്യപേപ്പർ & ഉത്തരങ്ങൾ</h1></div>
+        <div class="flex gap-3 mb-6 no-print px-4">
+            <button class="flex-1 bg-blue-100 text-blue-700 py-3 rounded-xl font-bold border border-blue-300 shadow-sm hover:bg-blue-200 transition" onclick="window.print()">🖨️ പ്രിന്റ് (Print)</button>
+            <button class="flex-1 bg-red-100 text-red-700 py-3 rounded-xl font-bold border border-red-300 shadow-sm hover:bg-red-200 transition" onclick="downloadPDF('printableQP', 'Class8_Maths_Unit5_ModelQP.pdf')">⬇️ PDF ഡൗൺലോഡ്</button>
+        </div>
+        <div class="content-card text-sm mx-4 bg-white" id="printableQP" style="padding: 30px;">
+            <div class="text-center mb-6 border-b-2 border-black pb-3">
+                <h2 class="text-2xl font-bold uppercase tracking-wide">മോഡൽ മൂല്യനിർണ്ണയം</h2>
+                <h3 class="font-bold mt-2 text-lg">ഗണിതം - ക്ലാസ് 8 | യൂണിറ്റ് 5: സമവാക്യപരിഹാരം</h3>
+            </div>
+            <div class="space-y-6 text-base text-gray-900">
+                <div>
+                    <h3 class="font-bold mb-3">1. ഉത്തരങ്ങൾ എഴുതുക:</h3>
+                    <p class="mb-2">എ) ഒരു സംഖ്യയുടെ രണ്ടു മടങ്ങിനോട് 3 കൂട്ടിയപ്പോൾ 101 കിട്ടി. സംഖ്യ ഏത്? ...................................................</p>
+                    <p class="mb-2">ബി) അജയന് വിജയനേക്കാൾ 10 വയസ്സ് കൂടുതലാണ്. വിജയന്റെ പ്രായം x ആയാൽ അജയന്റെ പ്രായം എത്ര? ...................................................</p>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-3">2. ചുരുക്ക ഉത്തരം:</h3>
+                    <p class="mb-2">80 മീറ്റർ ചുറ്റളവുള്ള ഒരു ചതുരത്തിന്റെ നീളം, വീതിയുടെ രണ്ടു മടങ്ങിനേക്കാൾ 1 മീറ്റർ കൂടുതലാണ്. ചതുരത്തിന്റെ നീളവും വീതിയും കാണുക.</p>
+                </div>
+            </div>
+            <div class="mt-10 text-center font-bold text-gray-500">***</div>
+        </div>
+    </div>
+
+    <!-- Unit Test Screen -->
+    <div id="unitTestScreen" class="screen">
+        <div class="header no-print"><button class="back-btn" onclick="showScreen('homeScreen')">⬅ Home</button><h1>യൂണിറ്റ് ടെസ്റ്റ് പേപ്പർ</h1></div>
+        <div class="flex gap-3 mb-6 no-print px-4">
+            <button class="flex-1 bg-blue-100 text-blue-700 py-3 rounded-xl font-bold border border-blue-300 shadow-sm hover:bg-blue-200 transition" onclick="window.print()">🖨️ പ്രിന്റ് (Print)</button>
+            <button class="flex-1 bg-red-100 text-red-700 py-3 rounded-xl font-bold border border-red-300 shadow-sm hover:bg-red-200 transition" onclick="downloadPDF('printableTest', 'Class8_Maths_Unit5_Test.pdf')">⬇️ PDF ഡൗൺലോഡ്</button>
+        </div>
+        <div class="content-card text-sm mx-4 bg-white" id="printableTest" style="padding: 30px;">
+            <div class="text-center mb-6 border-b-2 border-black pb-3">
+                <h2 class="text-2xl font-bold uppercase tracking-wide">യൂണിറ്റ് ടെസ്റ്റ് - ഗണിതം</h2>
+                <h3 class="font-bold mt-2 text-lg">ക്ലാസ് 8 | യൂണിറ്റ് 5: സമവാക്യപരിഹാരം (സ്കോർ: 20)</h3>
+            </div>
+            <div class="space-y-6 text-base text-gray-900">
+                <div>
+                    <h3 class="font-bold mb-3">1. ശരിയായ ഉത്തരം തിരഞ്ഞെടുക്കുക (4 സ്കോർ):</h3>
+                    <p class="mb-2">എ) ഒരു സംഖ്യയോട് 2 കൂട്ടി 3 കൊണ്ടു ഗുണിച്ചപ്പോൾ 60 കിട്ടിയാൽ ആ സംഖ്യ ഏത്?<br><span class="text-sm font-semibold text-gray-600">( 16 , 18 , 20 )</span></p>
+                    <p class="mb-2">ബി) 4 രൂപാ പേനയും 3 രൂപാ പേനയും കൂടി ആകെ 25 എണ്ണം വാങ്ങിയപ്പോൾ 85 രൂപയായി. 4 രൂപാ പേന എത്രയെണ്ണം?<br><span class="text-sm font-semibold text-gray-600">( 10 , 12 , 15 )</span></p>
+                </div>
+            </div>
+            <div class="mt-10 text-center font-bold text-gray-500">***</div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Message</div>
+</div>
+
+<script>
+    function showScreen(id) { 
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); 
+        document.getElementById(id).classList.add('active'); 
+        window.scrollTo({top:0, behavior:'smooth'}); 
+    }
+    
+    function showToast(msg, duration=2500, isSuccess=true) { 
+        const t = document.getElementById('toast'); 
+        t.innerText = msg; 
+        t.style.backgroundColor = isSuccess ? '#059669' : '#ef4444'; 
+        t.classList.add('show'); 
+        setTimeout(()=>t.classList.remove('show'), duration); 
+    }
+
+    // Reverse Solver Game
+    function checkReverse() {
+        const val = parseInt(document.getElementById('revInput').value);
+        const res = document.getElementById('revResult');
+        if (val === 10) {
+            res.innerText = "ഗംഭീരം! (35 - 5) ÷ 3 = 10 ശരിയാണ്! 🏆";
+            res.className = "font-bold mt-3 text-lg text-emerald-700";
+            showToast("ശരി! 🎉");
+        } else {
+            res.innerText = "തെറ്റാണ്, 35 ൽ നിന്ന് 5 കുറച്ച് 3 കൊണ്ട് ഹരിച്ചു നോക്കൂ.";
+            res.className = "font-bold mt-3 text-lg text-red-600";
+            showToast("ശരിയല്ല!", 2000, false);
+        }
+    }
+
+    // Age Puzzle Checker
+    function checkAgePuzzle() {
+        const age = parseInt(document.getElementById('ageInput').value);
+        const res = document.getElementById('ageResult');
+        if (age === 9) {
+            res.innerText = "ശരിയാണ്! വിജയന്റെ പ്രായം 9, അജയന്റെ പ്രായം 19. അടുത്ത വർഷം 10 ഉം 20 ഉം ആകും (രണ്ടു മടങ്ങ്)! 🏆";
+            res.className = "font-bold mt-3 text-base text-emerald-700";
+            showToast("കൃത്യം! 🎉");
+        } else {
+            res.innerText = "തെറ്റാണ്, സമവാക്യം: 2(x + 1) = x + 11. x = 9 എന്ന് കിട്ടും.";
+            res.className = "font-bold mt-3 text-base text-red-600";
+            showToast("ശരിയല്ല!", 2000, false);
+        }
+    }
+
+    // Mixture Checker
+    function checkMixture() {
+        const val = parseFloat(document.getElementById('mixInput').value);
+        const res = document.getElementById('mixResult');
+        if (Math.abs(val - 10) < 0.01) {
+            res.innerText = "അത്ഭുതം! ആദ്യം 10 ലിറ്റർ ദ്രാവകമുണ്ടായിരുന്നു. (3/20 x = 1.5 => x = 10) 🏆";
+            res.className = "font-bold mt-3 text-base text-emerald-700";
+            showToast("ശരിയാണ്! 🎉");
+        } else {
+            res.innerText = "തെറ്റാണ്, ആകെ ദ്രാവകം 10 ലിറ്റർ ആയിരുന്നു.";
+            res.className = "font-bold mt-3 text-base text-red-600";
+            showToast("ശരിയല്ല!", 2000, false);
+        }
+    }
+
+    // Bird Puzzle Checker
+    function checkBirdPuzzle() {
+        const val = parseInt(document.getElementById('birdInput').value);
+        const res = document.getElementById('birdResult');
+        if (val === 36) {
+            res.innerText = "ഗംഭീരം! പക്ഷിക്കൂട്ടത്തിൽ 36 പക്ഷികൾ ഉണ്ടായിരുന്നു. 🏆";
+            res.className = "font-bold mt-3 text-base text-emerald-700";
+            showToast("ശരിയാണ്! 🎉");
+        } else {
+            res.innerText = "തെറ്റാണ്, 11/4 x + 1 = 100 => x = 36.";
+            res.className = "font-bold mt-3 text-base text-red-600";
+            showToast("ശരിയല്ല!", 2000, false);
+        }
+    }
+
+    // Flash Cards Data
+    const flashCards = [
+        { q: "കൂട്ടലിന്റെ വിപരീതക്രിയ ഏത്?", a: "കുറയ്ക്കൽ (Subtraction)" },
+        { q: "ഗുണനത്തിന്റെ വിപരീതക്രിയ ഏത്?", a: "ഹരണം (Division)" },
+        { q: "അക്ഷരങ്ങൾക്ക് ഏതു വില കൊടുത്താലും ശരിയാകുന്ന സമവാക്യങ്ങൾ ഏതു പേരിൽ അറിയപ്പെടുന്നു?", a: "സർവസമവാക്യങ്ങൾ (Identities)" },
+        { q: "ലീലാവതി രചിച്ച ഭാരതീയ ഗണിതശാസ്ത്രജ്ഞൻ ആര്?", a: "ഭാസ്കരാചാര്യർ" },
+        { q: "ആൾജബ്ര (Algebra) എന്ന വാക്ക് ഏത് അറബ് വാക്കിൽ നിന്നാണ് ഉണ്ടായത്?", a: "അൽജബർ (Al-jabr)" }
+    ];
+    let fcIdx = 0;
+    function updateFlashCard() {
+        document.getElementById('fcCategory').innerText = `ചോദ്യം ${fcIdx + 1} / ${flashCards.length}`;
+        document.getElementById('fcQuestion').innerText = flashCards[fcIdx].q;
+        document.getElementById('fcAnswerBox').innerText = `ഉത്തരം: ${flashCards[fcIdx].a}`;
+        document.getElementById('fcAnswerBox').classList.add('hidden');
+    }
+    function toggleFlashAnswer() {
+        document.getElementById('fcAnswerBox').classList.toggle('hidden');
+    }
+    function nextFlashCard() {
+        fcIdx = (fcIdx + 1) % flashCards.length;
+        updateFlashCard();
+    }
+    function prevFlashCard() {
+        fcIdx = (fcIdx - 1 + flashCards.length) % flashCards.length;
+        updateFlashCard();
+    }
+    updateFlashCard();
+
+    // Quiz Data
+    const quizData = [
+        { q: "ഒരു സംഖ്യയുടെ മൂന്നു മടങ്ങിനോട് രണ്ടു കൂട്ടിയപ്പോൾ 50 ആയാൽ ആ സംഖ്യ ഏത്?", options: ["14", "16", "18", "20"], ans: 1 },
+        { q: "ഒരു സംഖ്യയോട് 2 കൂട്ടി 3 കൊണ്ടു ഗുണിച്ചപ്പോൾ 60 കിട്ടിയാൽ സംഖ്യ ഏത്?", options: ["16", "18", "20", "22"], ans: 1 },
+        { q: "അൽഖ്വാരിസ്മി ജീവിച്ചിരുന്നത് ഏതു നൂറ്റാണ്ടിലാണ്?", options: ["സി.ഇ. അഞ്ചാം നൂറ്റാണ്ട്", "സി.ഇ. എട്ടാം നൂറ്റാണ്ട്", "സി.ഇ. പന്ത്രണ്ടാം നൂറ്റാണ്ട്", "സി.ഇ. പത്താം നൂറ്റാണ്ട്"], ans: 1 },
+        { q: "ലീലാവതി രചിച്ചത് ആര്?", a: "ഭാസ്കരാചാര്യർ", options: ["ആര്യഭട്ടൻ", "ഭാസ്കരാചാര്യർ", "ബ്രഹ്മഗുപ്തൻ", "രാമാനുജൻ"], ans: 1 },
+        { q: "4 രൂപാ പേനയും 3 രൂപാ പേനയും കൂടി ആകെ 25 എണ്ണം വാങ്ങിയപ്പോൾ 85 രൂപയായി. 4 രൂപാ പേന എത്രയെണ്ണം?", options: ["10", "12", "15", "18"], ans: 0 }
+    ];
+
+    let qIdx = 0, qScore = 0;
+    function initQuiz() {
+        qIdx = 0; qScore = 0;
+        document.getElementById('quizResultArea').style.display = 'none';
+        document.getElementById('quizQuestionArea').style.display = 'block';
+        loadQuizQuestion();
+    }
+    
+    function loadQuizQuestion() {
+        document.getElementById('quizProgress').innerText = `${qIdx+1}/${quizData.length}`;
+        const item = quizData[qIdx];
+        document.getElementById('questionText').innerText = `${qIdx+1}. ${item.q}`;
+        const og = document.getElementById('optionsGrid');
+        og.innerHTML = '';
+        item.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-opt py-3 text-lg border-2';
+            btn.innerText = opt;
+            btn.onclick = () => checkQuizOpt(i, btn);
+            og.appendChild(btn);
+        });
+    }
+
+    function checkQuizOpt(sIdx, btn) {
+        const cIdx = quizData[qIdx].ans;
+        const btns = document.querySelectorAll('#optionsGrid .quiz-opt');
+        btns.forEach(b => b.disabled = true);
+        if (sIdx === cIdx) { 
+            btn.classList.add('bg-green-100', 'border-green-500', 'text-green-900'); 
+            qScore++; 
+            showToast('ശരി! 🎉', 800); 
+        } else { 
+            btn.classList.add('bg-red-100', 'border-red-500', 'text-red-900'); 
+            btns[cIdx].classList.add('bg-green-100', 'border-green-500', 'text-green-900'); 
+            showToast('തെറ്റ്!', 800, false); 
+        }
+        setTimeout(() => {
+            qIdx++;
+            if (qIdx < quizData.length) loadQuizQuestion();
+            else {
+                document.getElementById('quizQuestionArea').style.display = 'none';
+                document.getElementById('quizResultArea').style.display = 'block';
+                document.getElementById('finalScore').innerText = qScore;
+                document.getElementById('quizProgress').innerText = 'പൂർത്തിയായി';
+            }
+        }, 1200);
+    }
+
+    // PDF Download Helper
+    function downloadPDF(elementId, filename) {
+        const element = document.getElementById(elementId);
+        html2pdf().set({ margin: 15, filename: filename, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(element).save();
+    }
+</script>
+</body>
+</html>
